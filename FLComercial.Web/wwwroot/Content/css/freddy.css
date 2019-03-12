@@ -1,0 +1,10 @@
+﻿body {
+}
+img#logo {
+	/*padding: 0 100px 30px 100px;*/
+	width: 200px;
+	height: auto;
+}
+.logo-infonets{
+	padding-top:17px;
+}
