@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FLComercial.Web.Data;
-using FLComercial.Web.Data.Entities;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace FLComercial.Web
+﻿namespace FLComercial.Web
 {
+    using Data;
+    using Data.Entities;
+    using Helpers;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -29,7 +25,8 @@ namespace FLComercial.Web
         public void ConfigureServices(IServiceCollection services)
         {
             //perosnalizar los datos del password de los usuarios
-            services.AddIdentity<User, IdentityRole>(cfg => {
+            services.AddIdentity<User, IdentityRole>(cfg =>
+            {
                 cfg.User.RequireUniqueEmail = true;
                 cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;
@@ -48,7 +45,10 @@ namespace FLComercial.Web
             services.AddTransient<SeedDB>();
 
             //inyeccion de repositorio
-            services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICountryRepository, CountryRepository>();
+
+            services.AddScoped<IUserHelper, UserHelper>();
             //termina creado por freddy
             services.Configure<CookiePolicyOptions>(options =>
             {

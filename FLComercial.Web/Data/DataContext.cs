@@ -7,8 +7,11 @@ namespace FLComercial.Web.Data
     using Microsoft.EntityFrameworkCore;
     public class DataContext : IdentityDbContext<User>
     {
-        //cada tabla es un tabla en la base de datos
+        //agregar por cada tabla en la base de datos
         public DbSet<Product> Products { get; set; }
+        public DbSet<Country> Countries { get; set; }
+
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 

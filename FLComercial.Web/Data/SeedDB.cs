@@ -2,21 +2,22 @@
 
 namespace FLComercial.Web.Data
 {
-    using FLComercial.Web.Data.Entities;
+    using Entities;
+    using Helpers;
     using Microsoft.AspNetCore.Identity;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     public class SeedDB
     {
         private readonly DataContext context;
-        private readonly UserManager<User> userManager;
-        private Random random;
-        public SeedDB(DataContext context, UserManager<User> userManager)
+        private readonly IUserHelper userHelper;
+        private readonly Random random;
+        public SeedDB(DataContext context, IUserHelper userHelper)
         {
             this.context = context;
-            this.userManager = userManager;
+            this.userHelper = userHelper;
             this.random = new Random();
         }
         public async Task SeedAsinc()
@@ -24,20 +25,20 @@ namespace FLComercial.Web.Data
             await this.context.Database.EnsureCreatedAsync();
 
             //creamos el usuario la primera vez
-            var user = await this.userManager.FindByEmailAsync("freddy-limon@hotmail.com");
-            if(user == null)
+            var user = await this.userHelper.GetUserByEmailAsync("freddy-limon@hotmail.com");
+            if (user == null)
             {
                 user = new User
                 {
-                    FirstName="Freddy",
-                    LastName="Limon",
-                    Email= "freddy-limon@hotmail.com",
-                    UserName= "freddy-limon@hotmail.com",
-                   PhoneNumber="78569226"
+                    FirstName = "Freddy",
+                    LastName = "Limon",
+                    Email = "freddy-limon@hotmail.com",
+                    UserName = "freddy-limon@hotmail.com",
+                    PhoneNumber = "78569226"
                 };
 
-                var result = await this.userManager.CreateAsync(user, "123456");
-                if(result != IdentityResult.Success)
+                var result = await this.userHelper.AddUserAsync(user, "123456");
+                if (result != IdentityResult.Success)
                 {
                     throw new InvalidOperationException("No se pudo crear el Usuario");
                 }
@@ -58,7 +59,7 @@ namespace FLComercial.Web.Data
                 Price = this.random.Next(100),
                 IsAvailabe = true,
                 Stock = this.random.Next(100),
-                User= user
+                User = user
             });
         }
     }
