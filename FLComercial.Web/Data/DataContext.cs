@@ -1,19 +1,17 @@
-﻿using FLComercial.Web.Data.Entities;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 
 namespace FLComercial.Web.Data
 {
-    public class DataContext: DbContext
+    using FLComercial.Web.Data.Entities;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+    public class DataContext : IdentityDbContext<User>
     {
         //cada tabla es un tabla en la base de datos
         public DbSet<Product> Products { get; set; }
-        public DataContext(DbContextOptions<DataContext> options): base(options)
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 
-        }  
+        }
     }
 }
